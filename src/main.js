@@ -5,7 +5,26 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import store from './../store/index.js'
+import mitt from 'mitt';
+const emitter = mitt();
+// App.config.globalProperties.emitter = emitter;
 
 library.add(faChevronLeft, faChevronRight);
+const app = createApp(App)
+app.config.globalProperties.emitter = emitter;
 
-createApp(App).mount("#app");
+import {createI18n} from 'vue-i18n'
+
+import {geo,turk} from './languages/lang.js'
+const messages = {
+  geo,
+  turk
+}
+ 
+const i18n = createI18n({
+  locale: 'geo',
+  fallbackLocale: 'turk', 
+  messages, 
+})
+app.use(emitter).use(i18n).use(store).mount("#app");
